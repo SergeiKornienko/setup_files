@@ -26,7 +26,7 @@ install_packages() {
 }
 
 # Общие пакеты для обеих систем
-COMMON_PACKAGES="git curl wget zsh python3 vim tmux fzf"
+COMMON_PACKAGES="curl wget zsh python3 vim tmux fzf"
 
 # Установка общих пакетов
 install_packages $COMMON_PACKAGES
@@ -50,22 +50,8 @@ else
     fi
 fi
 
-# Загрузка конфигурационных файлов с GitHub
-echo "Загружаем конфигурационные файлы..."
-download_config() {
-    local url=$1
-    local file=$2
-    if ! curl -sSLf "$url" -o "$file"; then
-        echo "Ошибка загрузки $file, создаем пустой файл"
-        touch "$file"
-    fi
-}
 
-# Скачиваем .zshrc
-download_config "https://raw.githubusercontent.com/SergeiKornienko/setup_files/0490963bef6f9190389bffff3562fed51f58c684/.zshrc" ~/.zshrc
 
-# Скачиваем .vimrc
-download_config "https://raw.githubusercontent.com/SergeiKornienko/setup_files/0490963bef6f9190389bffff3562fed51f58c684/.vimrc" ~/.vimrc
 
 # Установка Oh My Zsh (если zsh установлен)
 if command -v zsh &> /dev/null && [ ! -d "$HOME/.oh-my-zsh" ]; then
