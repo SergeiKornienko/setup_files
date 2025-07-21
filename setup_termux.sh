@@ -29,7 +29,7 @@ install_packages() {
 }
 
 # Основные пакеты
-BASE_PACKAGES="git curl wget zsh python3 vim tmux fzf"
+BASE_PACKAGES="curl wget zsh python3 vim tmux fzf"
 install_packages $BASE_PACKAGES
 
 # Специфичные пакеты
@@ -49,6 +49,7 @@ manage_configs() {
         for config in "${CONFIG_FILES[@]}"; do
             if [ -f "$CONFIG_REPO/$config" ]; then
                 cp -v "$CONFIG_REPO/$config" ~/
+#!/bin/bash
                 # Специальная обработка для tmux.conf
                 if [ "$config" = ".tmux.conf" ] && [ "$OS" = "termux" ]; then
                     sed -i 's/^set -g default-terminal.*/# &/' ~/.tmux.conf
@@ -71,22 +72,51 @@ manage_configs() {
 
 manage_configs
 
-# Установка Oh My Zsh
-if command -v zsh &> /dev/null && [ ! -d "$HOME/.oh-my-zsh" ]; then
-    echo "🚀 Устанавливаем Oh My Zsh..."
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-    
-    echo "🔌 Устанавливаем плагины Zsh..."
-    plugins=(
-        "https://github.com/zsh-users/zsh-completions"
-        "https://github.com/zsh-users/zsh-autosuggestions"
-        "https://github.com/zdharma-continuum/fast-syntax-highlighting"
-    )
-    
-    for plugin in "${plugins[@]}"; do
-        git clone $plugin ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/$(basename $plugin)
-    done
-fi
+
+# Установка и настройка плагинов Oh My Zsh
+setup_oh_my_zsh() {
+    if command -v zsh &> /dev/null && [ ! -d "$HOME/.oh-my-zsh" ]; then
+        echo "🚀 Устанавливаем Oh My Zsh..."
+        sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+    fi
+
+    if [ -d "$HOME/.oh-my-zsh" ]; then
+        echo "🔌 Устанавливаем плагины Zsh..."
+        
+        # Создаем кастомную директорию для плагинов
+        ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
+        
+        # Устанавливаем zsh-completions
+        if [ ! -d "$ZSH_CUSTOM/plugins/zsh-completions" ]; then
+            git clone https://github.com/zsh-users/zsh-completions "$ZSH_CUSTOM/plugins/zsh-completions"
+        else
+            echo "✓ zsh-completions уже установлен"
+        fi
+        
+        # Устанавливаем zsh-autosuggestions
+        if [ ! -d "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]; then
+            git clone https://github.com/zsh-users/zsh-autosuggestions "$ZSH_CUSTOM/plugins/zsh-autosuggestions"
+        else
+            echo "✓ zsh-autosuggestions уже установлен"
+        fi
+        
+        # Устанавливаем zsh-syntax-highlighting
+        if [ ! -d "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" ]; then
+            git clone https://github.com/zsh-users/zsh-syntax-highlighting "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting"
+        else
+            echo "✓ zsh-syntax-highlighting уже установлен"
+        fi
+
+        
+    else
+        echo "⚠️ Oh My Zsh не установлен"
+    fi
+}
+
+# Вызываем функцию установки
+setup_oh_my_zsh
+
+echo "✅ Настройка Oh My Zsh завершена"
 
 # Настройка Vim
 if command -v vim &> /dev/null; then

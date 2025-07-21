@@ -76,11 +76,11 @@ plugins=(
 	zsh-completions       # Автодополнение команд (встроенное в OMZ)
 	zsh-autosuggestions   # Подсказки из истории (→ для принятия)
 	history-substring-search  # Поиск в истории (↑/↓ после начала ввода)
-	fast-syntax-highlighting  # Быстрая подсветка синтаксиса (аналог zsh-syntax-highlighting)
+	zsh-syntax-highlighting  # Быстрая подсветка синтаксиса (аналог zsh-syntax-highlighting)
 	fzf                   # Fuzzy-поиск файлов/истории (Ctrl+R, Ctrl+T)
 	# pip                   # Автодополнение для pip
-	web-search            # Поиск в Google/DuckDuckGo (google "запрос")
-	extract               # Распаковка архивов одной командой (x file.zip)
+	# web-search            # Поиск в Google/DuckDuckGo (google "запрос")
+	# extract               # Распаковка архивов одной командой (x file.zip)
 	tmux                  # Интеграция с Tmux (если используется)
 	command-not-found     # Подсказывает пакет для отсутствующей команды
 	history               # Улучшенное управление историей
