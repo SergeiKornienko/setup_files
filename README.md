@@ -15,7 +15,7 @@ chmod +x setup_termux.sh
 ./setup_termux.sh
 ```
 
-##SSH
+## SSH
 ```bash
 eval "$(ssh-agent -s)"
 ```
