@@ -6,4 +6,4 @@ or
 
 apt install git
 
-git clone git@github.com:SergeiKornienko/setup_files.git ~
+git clone https://github.com/SergeiKornienko/setup_files.git
